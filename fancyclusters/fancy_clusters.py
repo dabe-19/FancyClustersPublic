@@ -31,7 +31,7 @@ class FancyClusters:
                 raise ValueError("Pandas Dataframe contains no numeric columns")
             numerical_data = data[numerical_cols].values # creates array out of numerical columns
         elif isinstance(data, np.ndarray): # checks if data is supplied as ndarray
-            #print(f'data Type NDARRAY')
+            print(f'data Type NDARRAY')
             mixed_types=False
             for col in range(data.shape[1]):
                 try:
