@@ -11,18 +11,35 @@ class FancyClusters:
         self.cluster_labels = None # instantiate cluster_labels parameter  
         self.cluster_groups = [] # instantiate cluster_groups list
         self.clustered_data = None
-        
-    def fit_predict(self, data):
+        self.unconverted = []
+    def fit_predict(self, data, convert=False):
         
         self.original_data = data # Capture original data
         #checks if data is input is pandas DataFrame or numpy ndarray, returns an error if data is neither type.
         if isinstance(data, pd.DataFrame):
+            if convert: # checks if convert argument is true and will try to convert all columns to numeric
+                        # raise a warning if a column could not be converted and append that column to a list for troubleshooting
+                for col in data.columns:
+                    try:
+                        data[col] = pd.to_numeric(data[col])
+                    except ValueError:
+                        self.unconverted.append(col)
+                        print(f'Warning: Failed to convert column {col} to numeric')
+                        pass
             numerical_cols = data.select_dtypes(include = np.number).columns # finds which columns in DataFrame are numeric
             if len(numerical_cols) == 0: # check for existence of numeric columns
                 raise ValueError("Pandas Dataframe contains no numeric columns")
             numerical_data = data[numerical_cols].values # creates array out of numerical columns
         elif isinstance(data, np.ndarray): # checks if data is supplied as ndarray
             data = pd.DataFrame(data) # convert ndarray to DataFrame to check for numeric columns
+            if convert:
+                for col in data.columns:
+                    try:
+                        data[col] = pd.to_numeric(data[col])
+                    except ValueError:
+                        self.unconverted.append(col)
+                        print(f'Warning: Failed to convert column {col} to numeric')
+                        pass
             numerical_cols = data.select_dtypes(include=np.number).columns
             if len(numerical_cols) == 0: # Checks for existence of numeric columns
                 raise ValueError("ndarray contains no numeric columns.")
@@ -40,16 +57,33 @@ class FancyClusters:
         self.clustered_data = result
         return(result)
     
-    def fit(self, data):
+    def fit(self, data, convert=False):
         self.original_data = data # Capture original data
         #checks if data is input is pandas DataFrame or numpy ndarray, returns an error if data is neither type.
         if isinstance(data, pd.DataFrame):
+            if convert: # checks if convert argument is true and will try to convert all columns to numeric
+                        # raise a warning if a column could not be converted and append that column to a list for troubleshooting
+                for col in data.columns:
+                    try:
+                        data[col] = pd.to_numeric(data[col])
+                    except ValueError:
+                        self.unconverted.append(col)
+                        print(f'Warning: Failed to convert column {col} to numeric')
+                        pass            
             numerical_cols = data.select_dtypes(include = np.number).columns # finds which columns in DataFrame are numeric
             if len(numerical_cols) == 0: # check for existence of numeric columns
                 raise ValueError("Pandas Dataframe contains no numeric columns")
             numerical_data = data[numerical_cols].values # creates array out of numerical columns
         elif isinstance(data, np.ndarray): # checks if data is supplied as ndarray
             data = pd.DataFrame(data) # convert ndarray to DataFrame to check for numeric columns
+            if convert:
+                for col in data.columns:
+                    try:
+                        data[col] = pd.to_numeric(data[col])
+                    except ValueError:
+                        self.unconverted.append(col)
+                        print(f'Warning: Failed to convert column {col} to numeric')
+                        pass
             numerical_cols = data.select_dtypes(include=np.number).columns
             if len(numerical_cols) == 0: # Checks for existence of numeric columns
                 raise ValueError("ndarray contains no numeric columns.")
