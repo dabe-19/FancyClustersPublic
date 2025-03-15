@@ -1,0 +1,7 @@
+pycache/
+*.pyc
+.venv/
+dist/
+build/
+*.egg-info/
+*.DS_Store # add this for mac users
