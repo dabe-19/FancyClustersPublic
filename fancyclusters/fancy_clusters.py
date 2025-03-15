@@ -73,5 +73,5 @@ class FancyClusters:
                 self.cluster_groups.append(self.clustered_data[self.clustered_data['cluster'] == i])
         else: 
             for i in range(self.n_clusters):
-                self.cluster_groups.append(self.clustered_data[self.clustered_data[:,-1]] == i)
+                self.cluster_groups.append(self.clustered_data[self.clustered_data[:,-1] == i])
         return(self.cluster_groups) 
