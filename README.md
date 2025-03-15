@@ -55,9 +55,11 @@ n_clusters: The number of clusters.
 `fit_predict(data)`: Fits the model and predicts cluster labels.  
 data: pandas DataFrame or NumPy ndarray.  
 Returns: Clustered data with a 'cluster' column.  
+  
 `fit(data)`: Fits the model and returns the fitted model and clustered data.  
 data: pandas DataFrame or NumPy ndarray.  
 Returns: The fitted AgglomerativeClustering model and the clustered data with a 'cluster' column.  
+  
 `get_cluster_groups()`: Returns a list of DataFrames or arrays, one for each cluster.  
 Returns: List of grouped data.  
 
