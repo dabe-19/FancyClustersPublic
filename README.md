@@ -48,27 +48,28 @@ print("\nClustered ndarray using fit():\n", result_np_fit)
 print("\nAgglomerativeClustering Model:\n", model)
 ```
 ## Methods
-__init__(n_clusters=2, **kwargs): Initializes the FancyClusters object.
-n_clusters: The number of clusters.
-**kwargs: Additional keyword arguments passed to AgglomerativeClustering.
-fit_predict(data): Fits the model and predicts cluster labels.
-data: pandas DataFrame or NumPy ndarray.
-Returns: Clustered data with a 'cluster' column.
-fit(data): Fits the model and returns the fitted model and clustered data.
-data: pandas DataFrame or NumPy ndarray.
-Returns: The fitted AgglomerativeClustering model and the clustered data with a 'cluster' column.
-get_cluster_groups(): Returns a list of DataFrames or arrays, one for each cluster.
-Returns: List of grouped data.
+`__init__(n_clusters=2, **kwargs)`: Initializes the FancyClusters object.  
+n_clusters: The number of clusters.  
+**kwargs: Additional keyword arguments passed to AgglomerativeClustering.  
+  
+`fit_predict(data)`: Fits the model and predicts cluster labels.  
+data: pandas DataFrame or NumPy ndarray.  
+Returns: Clustered data with a 'cluster' column.  
+`fit(data)`: Fits the model and returns the fitted model and clustered data.  
+data: pandas DataFrame or NumPy ndarray.  
+Returns: The fitted AgglomerativeClustering model and the clustered data with a 'cluster' column.  
+`get_cluster_groups()`: Returns a list of DataFrames or arrays, one for each cluster.  
+Returns: List of grouped data.  
 
 ## Error Handling
-Raises ValueError if the input data is not a pandas DataFrame or NumPy ndarray.
-Raises ValueError if the input data contains no numerical columns.
-Raises ValueError if get_cluster_groups() is called before fit() or fit_predict().
+Raises ValueError if the input data is not a pandas DataFrame or NumPy ndarray.  
+Raises ValueError if the input data contains no numerical columns.  
+Raises ValueError if get_cluster_groups() is called before fit() or fit_predict().  
 
 ## Dependencies
-pandas
-NumPy
-scikit-learn
+pandas  
+NumPy  
+scikit-learn  
 
 ## License
 MIT License
@@ -77,5 +78,5 @@ MIT License
 dabe-19
 
 ## Contributing
-... (Add contribution guidelines here)
+
 
