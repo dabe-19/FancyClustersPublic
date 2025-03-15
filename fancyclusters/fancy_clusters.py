@@ -41,12 +41,12 @@ class FancyClusters:
                     mixed_types=True
                     break
             if mixed_types:
-                self.original_data = pd.DataFrame(self.original_data)                                
-                data = self.original_data
+                data = pd.DataFrame(data)                                
+                self.original_data = data
                 if convert:
                     for col in data.columns:
                         try:
-                            data[col] = pd.to_numeric(data[:,col])
+                            data[:,col] = pd.to_numeric(data[:,col])
                         except ValueError:
                             self.unconverted.append(col)
                             print(f'Warning: Failed to convert column {col} to numeric')
