@@ -43,7 +43,7 @@ class FancyClusters:
             numerical_cols = data.select_dtypes(include=np.number).columns
             if len(numerical_cols) == 0: # Checks for existence of numeric columns
                 raise ValueError("ndarray contains no numeric columns.")
-            numerical_data = data 
+            numerical_data = data[numerical_cols].values 
         else:
             raise ValueError("Input data must be either Pandas DataFrame or Numpy ndarray.")
         
@@ -87,7 +87,7 @@ class FancyClusters:
             numerical_cols = data.select_dtypes(include=np.number).columns
             if len(numerical_cols) == 0: # Checks for existence of numeric columns
                 raise ValueError("ndarray contains no numeric columns.")
-            numerical_data = data 
+            numerical_data = data[numerical_cols].values 
         else:
             raise ValueError("Input data must be either Pandas DataFrame or Numpy ndarray.")
         clusMdl = self.clustering_model.fit(numerical_data)
