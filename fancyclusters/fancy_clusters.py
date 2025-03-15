@@ -12,8 +12,8 @@ class FancyClusters:
         self.cluster_groups = [] # instantiate cluster_groups list
         self.clustered_data = None
         self.unconverted = []
-    def fit_predict(self, data, convert=False):
         
+    def fit_predict(self, data, convert=False):        
         self.original_data = data # Capture original data
         #checks if data is input is pandas DataFrame or numpy ndarray, returns an error if data is neither type.
         if isinstance(data, pd.DataFrame):
@@ -31,15 +31,26 @@ class FancyClusters:
                 raise ValueError("Pandas Dataframe contains no numeric columns")
             numerical_data = data[numerical_cols].values # creates array out of numerical columns
         elif isinstance(data, np.ndarray): # checks if data is supplied as ndarray
-            data = pd.DataFrame(data) # convert ndarray to DataFrame to check for numeric columns
-            if convert:
-                for col in data.columns:
-                    try:
-                        data[col] = pd.to_numeric(data[col])
-                    except ValueError:
-                        self.unconverted.append(col)
-                        print(f'Warning: Failed to convert column {col} to numeric')
-                        pass
+            #print(f'data Type NDARRAY')
+            mixed_types=False
+            for col in range(data.shape[1]):
+                try:
+                    pd.to_numeric(data[:,col])
+                except ValueError:
+                    print(f'Warning: ndarray type contained mixed datatypes, converting to Pandas Dataframe')
+                    mixed_types=True
+                    break
+            if mixed_types:
+                self.original_data = pd.DataFrame(self.original_data)                                
+                data = self.original_data
+                if convert:
+                    for col in data.columns:
+                        try:
+                            data[col] = pd.to_numeric(data[:,col])
+                        except ValueError:
+                            self.unconverted.append(col)
+                            print(f'Warning: Failed to convert column {col} to numeric')
+                            pass
             numerical_cols = data.select_dtypes(include=np.number).columns
             if len(numerical_cols) == 0: # Checks for existence of numeric columns
                 raise ValueError("ndarray contains no numeric columns.")
@@ -75,15 +86,25 @@ class FancyClusters:
                 raise ValueError("Pandas Dataframe contains no numeric columns")
             numerical_data = data[numerical_cols].values # creates array out of numerical columns
         elif isinstance(data, np.ndarray): # checks if data is supplied as ndarray
-            data = pd.DataFrame(data) # convert ndarray to DataFrame to check for numeric columns
-            if convert:
-                for col in data.columns:
-                    try:
-                        data[col] = pd.to_numeric(data[col])
-                    except ValueError:
-                        self.unconverted.append(col)
-                        print(f'Warning: Failed to convert column {col} to numeric')
-                        pass
+            mixed_types=False
+            for col in range(data.shape[1]):
+                try:
+                    data[:,col].astype(float)
+                except ValueError:
+                    print(f'Warning: ndarray type contained mixed datatypes, converting to Pandas Dataframe')
+                    mixed_types=True
+                    break
+            if mixed_types:
+                self.original_data = pd.DataFrame(self.original_data)                                
+                data = self.original_data
+                if convert:
+                    for col in data.columns:
+                        try:
+                            data[col] = pd.to_numeric(data[col])
+                        except ValueError:
+                            self.unconverted.append(col)
+                            print(f'Warning: Failed to convert column {col} to numeric')
+                            pass
             numerical_cols = data.select_dtypes(include=np.number).columns
             if len(numerical_cols) == 0: # Checks for existence of numeric columns
                 raise ValueError("ndarray contains no numeric columns.")
@@ -100,13 +121,21 @@ class FancyClusters:
         self.clustered_data = result
         return(clusMdl, result)
     
-    def get_cluster_groups(self):
+    def get_cluster_groups(self, convert = False):
         if self.clustered_data is None:
             raise ValueError("Must call fit() or fit_predict() methods first.")
         if isinstance(self.clustered_data, pd.DataFrame):
             for i in range(self.n_clusters):
                 self.cluster_groups.append(self.clustered_data[self.clustered_data['cluster'] == i])
-        else: 
-            for i in range(self.n_clusters):
+        else:
+            self.clustered_data[:,-1]=self.clustered_data[:,-1].astype(int)
+            if convert:
+                for col in range((self.clustered_data.shape[1]-1)):
+                    if type(self.clustered_data[:,col]) == object:
+                        try:
+                            self.clustered_data[:,col]=self.clustered_data[:,col].astype(float) 
+                        except ValueError:
+                            pass
+            for i in range(self.n_clusters):                    
                 self.cluster_groups.append(self.clustered_data[self.clustered_data[:,-1] == i])
         return(self.cluster_groups) 
