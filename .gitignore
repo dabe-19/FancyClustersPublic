@@ -5,4 +5,4 @@ dist/
 build/
 *.egg-info/
 *.DS_Store # add this for mac users
-UnitTest1.ipynb
+tests/
