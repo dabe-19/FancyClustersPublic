@@ -1,12 +1,15 @@
 # pip install git+https://github.com/dabe-19/FancyClusters.git#egg=fancyclusters
 import pandas as pd
 import numpy as np
-from sklearn.cluster import AgglomerativeClustering
+from sklearn.cluster import AgglomerativeClustering, KMeans
 
 class FancyClusters:
-    def __init__(self, n_clusters=2, **kwargs):
+    def __init__(self, n_clusters=2, model='Agg', **kwargs):
         self.n_clusters = n_clusters
-        self.clustering_model = AgglomerativeClustering(n_clusters=n_clusters, **kwargs) # create agglomerative clustering model
+        if model == 'Agg':
+            self.clustering_model = AgglomerativeClustering(n_clusters=n_clusters, **kwargs) # create agglomerative clustering model
+        elif model == 'KMeans':
+            self.clustering_model = KMeans(n_clusters = n_clusters, **kwargs)
         self.original_data = None # instantiate original data parameter for storing original dataframe or array
         self.cluster_labels = None # instantiate cluster_labels parameter  
         self.cluster_groups = [] # instantiate cluster_groups list
@@ -66,7 +69,7 @@ class FancyClusters:
         else: # if original data is ndarray, keep as ndarray but add cluster labels column to end of array
             result = np.concatenate([self.original_data, self.cluster_labels.reshape(-1,1)], axis = 1)
         self.clustered_data = result
-        return(result)
+        return(self.clustering_model, result)
         
     def fit(self, data, convert=False):
         self.original_data = data # Capture original data
@@ -120,7 +123,7 @@ class FancyClusters:
         else: # if original data is ndarray, keep as ndarray but add cluster labels column to end of array
             result = np.concatenate([self.original_data, self.cluster_labels.reshape(-1,1)], axis = 1)
         self.clustered_data = result
-        return(clusMdl, result)
+        return(self.clustering_model, clusMdl, result)
     
     def get_cluster_groups(self):
         if self.clustered_data is None:
