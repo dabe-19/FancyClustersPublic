@@ -81,23 +81,24 @@ class FancyClusters:
                     except ValueError:
                         self.unconverted.append(col)
                         print(f'Warning: Failed to convert column {col} to numeric')
-                        pass            
+                        pass
             numerical_cols = data.select_dtypes(include = np.number).columns # finds which columns in DataFrame are numeric
             if len(numerical_cols) == 0: # check for existence of numeric columns
                 raise ValueError("Pandas Dataframe contains no numeric columns")
             numerical_data = data[numerical_cols].values # creates array out of numerical columns
         elif isinstance(data, np.ndarray): # checks if data is supplied as ndarray
+            print(f'data Type NDARRAY')
+            convert_test = data
             mixed_types=False
-            for col in range(data.shape[1]):
+            for col in range(convert_test.shape[1]):
                 try:
-                    data[:,col].astype(float)
+                    pd.to_numeric(convert_test[:,col])
                 except ValueError:
                     print(f'Warning: ndarray type contained mixed datatypes, converting to Pandas Dataframe')
                     mixed_types=True
                     break
-            if mixed_types:
-                self.original_data = pd.DataFrame(self.original_data)                                
-                data = self.original_data
+            data = pd.DataFrame(data) 
+            if mixed_types:                               
                 if convert:
                     for col in data.columns:
                         try:
@@ -106,12 +107,13 @@ class FancyClusters:
                             self.unconverted.append(col)
                             print(f'Warning: Failed to convert column {col} to numeric')
                             pass
-            numerical_cols = data.select_dtypes(include=np.number).columns
+                    self.original_data = data
+            numerical_cols = data.select_dtypes(include=np.number).columns                
             if len(numerical_cols) == 0: # Checks for existence of numeric columns
                 raise ValueError("ndarray contains no numeric columns.")
-            numerical_data = data[numerical_cols].values 
+            numerical_data = data[numerical_cols].values
         else:
-            raise ValueError("Input data must be either Pandas DataFrame or Numpy ndarray.")
+            raise ValueError("Input data must be either Pandas DataFrame or Numpy ndarray.") 
         clusMdl = self.clustering_model.fit(numerical_data)
         self.cluster_labels = clusMdl.labels_        
         if isinstance(self.original_data, pd.DataFrame): # if original data is DataFrame, re-apply column names and add "cluster" column
