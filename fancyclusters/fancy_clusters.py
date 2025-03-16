@@ -47,7 +47,7 @@ class FancyClusters:
                 if convert:
                     for col in data.columns:
                         try:
-                            data[:,col] = pd.to_numeric(data[:,col])
+                            data[col] = pd.to_numeric(data[col])
                         except ValueError:
                             self.unconverted.append(col)
                             print(f'Warning: Failed to convert column {col} to numeric')
