@@ -32,10 +32,11 @@ class FancyClusters:
             numerical_data = data[numerical_cols].values # creates array out of numerical columns
         elif isinstance(data, np.ndarray): # checks if data is supplied as ndarray
             print(f'data Type NDARRAY')
+            convert_test = data
             mixed_types=False
-            for col in range(data.shape[1]):
+            for col in range(convert_test.shape[1]):
                 try:
-                    pd.to_numeric(data[:,col])
+                    pd.to_numeric(convert_test[:,col])
                 except ValueError:
                     print(f'Warning: ndarray type contained mixed datatypes, converting to Pandas Dataframe')
                     mixed_types=True
