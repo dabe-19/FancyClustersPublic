@@ -41,9 +41,8 @@ class FancyClusters:
                     print(f'Warning: ndarray type contained mixed datatypes, converting to Pandas Dataframe')
                     mixed_types=True
                     break
-            if mixed_types:
-                data = pd.DataFrame(data)                                
-                self.original_data = data
+            data = pd.DataFrame(data) 
+            if mixed_types:                               
                 if convert:
                     for col in data.columns:
                         try:
@@ -52,10 +51,11 @@ class FancyClusters:
                             self.unconverted.append(col)
                             print(f'Warning: Failed to convert column {col} to numeric')
                             pass
-            numerical_cols = data.select_dtypes(include=np.number).columns
+                    self.original_data = data
+            numerical_cols = data.select_dtypes(include=np.number).columns                
             if len(numerical_cols) == 0: # Checks for existence of numeric columns
                 raise ValueError("ndarray contains no numeric columns.")
-            numerical_data = data[numerical_cols].values 
+            numerical_data = data[numerical_cols].values
         else:
             raise ValueError("Input data must be either Pandas DataFrame or Numpy ndarray.")
         
@@ -68,7 +68,7 @@ class FancyClusters:
             result = np.concatenate([self.original_data, self.cluster_labels.reshape(-1,1)], axis = 1)
         self.clustered_data = result
         return(result)
-    
+        
     def fit(self, data, convert=False):
         self.original_data = data # Capture original data
         #checks if data is input is pandas DataFrame or numpy ndarray, returns an error if data is neither type.
