@@ -31,7 +31,6 @@ class FancyClusters:
                 raise ValueError("Pandas Dataframe contains no numeric columns")
             numerical_data = data[numerical_cols].values # creates array out of numerical columns
         elif isinstance(data, np.ndarray): # checks if data is supplied as ndarray
-            print(f'data Type NDARRAY')
             convert_test = data
             mixed_types=False
             for col in range(convert_test.shape[1]):
@@ -87,7 +86,6 @@ class FancyClusters:
                 raise ValueError("Pandas Dataframe contains no numeric columns")
             numerical_data = data[numerical_cols].values # creates array out of numerical columns
         elif isinstance(data, np.ndarray): # checks if data is supplied as ndarray
-            print(f'data Type NDARRAY')
             convert_test = data
             mixed_types=False
             for col in range(convert_test.shape[1]):
@@ -124,7 +122,7 @@ class FancyClusters:
         self.clustered_data = result
         return(clusMdl, result)
     
-    def get_cluster_groups(self, convert = False):
+    def get_cluster_groups(self):
         if self.clustered_data is None:
             raise ValueError("Must call fit() or fit_predict() methods first.")
         if isinstance(self.clustered_data, pd.DataFrame):
@@ -132,13 +130,6 @@ class FancyClusters:
                 self.cluster_groups.append(self.clustered_data[self.clustered_data['cluster'] == i])
         else:
             self.clustered_data[:,-1]=self.clustered_data[:,-1].astype(int)
-            if convert:
-                for col in range((self.clustered_data.shape[1]-1)):
-                    if type(self.clustered_data[:,col]) == object:
-                        try:
-                            self.clustered_data[:,col]=self.clustered_data[:,col].astype(float) 
-                        except ValueError:
-                            pass
             for i in range(self.n_clusters):                    
                 self.cluster_groups.append(self.clustered_data[self.clustered_data[:,-1] == i])
         return(self.cluster_groups) 
