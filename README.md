@@ -7,7 +7,7 @@ A Python package for enhanced clustering with pandas and NumPy integration using
 `FancyClusters` simplifies the process of clustering data using scikit-learn's `AgglomerativeClustering` algorithm while preserving your original data structure. It handles both pandas DataFrames and NumPy ndarrays, automatically selects numerical columns, and adds cluster labels to your data. Will detect if ndarray contains mixed data types and will convert ndarray to Pandas DataFrame in this case. If all data types are numerics, ndarray type will be preserved. Optional "convert" argument to attempt and coerce all columns to numerics if in DataFrame format or if ndarray contains mixed data.
 
 ## Installation
-
+Updated
 ```bash
 pip install git+https://github.com/dabe-19/FancyClustersPublic.git#egg=fancyclusters
 ```
