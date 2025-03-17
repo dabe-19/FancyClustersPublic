@@ -1,4 +1,4 @@
-# pip install git+https://github.com/dabe-19/FancyClusters.git#egg=fancyclusters
+# pip install git+https://github.com/dabe-19/FancyClustersPublic.git#egg=fancyclusters
 import pandas as pd
 import numpy as np
 from sklearn.cluster import AgglomerativeClustering, KMeans

@@ -9,7 +9,7 @@ A Python package for enhanced clustering with pandas and NumPy integration using
 ## Installation
 
 ```bash
-pip install fancyclusters
+pip install git+https://github.com/dabe-19/FancyClustersPublic.git#egg=fancyclusters
 ```
 
 ```python
