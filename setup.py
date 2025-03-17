@@ -15,7 +15,7 @@ setup(
     description='A package for enhanced clustering with pandas and numpy integration.',
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
-    url='https://github.com/dabe-19/fancyclusters',
+    url='https://github.com/dabe-19/FancyClustersPublic',
     classifiers=[
         'Programming Language :: Python :: 3',
         'License :: OSI Approved :: MIT License',
